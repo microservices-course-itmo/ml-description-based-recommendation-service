@@ -26,7 +26,7 @@ def predict(wine_id=None):
             prediction = load_by_ids(indices)
             print(prediction[['id', 'color', 'sugar']])
 
-            # prediction.drop(prediction.index[[0]], inplace=True)
+            # to do drop
             result = prediction.to_json(orient="index")
             parsed = json.loads(result)
             response = json.dumps(parsed, ensure_ascii=False)

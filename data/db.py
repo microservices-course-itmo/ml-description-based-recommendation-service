@@ -2,7 +2,9 @@ import pandas as pd
 
 
 def load_all():
-    return pd.read_csv('data/alcohol.csv')
+    df = pd.read_csv('data/alcohol.csv')
+    df['description'] = df['aroma'] + ' ' + df['taste'] + ' ' + df['description']
+    return df
 
 
 def load_by_ids(ids):
