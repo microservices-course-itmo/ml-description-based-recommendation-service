@@ -30,11 +30,13 @@ class Model:
         self.knn = knn
         self.wine2vec = Wine2Vec()
         self.vectors = []
+        self.scaler = StandardScaler()
 
     def fit(self, data):
         wine_review_vectors = self.wine2vec.fit_transform(data)
         X = np.array([np.array(w[0]).flatten() for w in wine_review_vectors])
-        X = StandardScaler().fit_transform(X)
+        self.scaler = self.scaler.fit(X)
+        X = self.scaler.fit_transform(X)
         self.vectors = wine_review_vectors
         self.knn.fit(X)
         return self
@@ -48,4 +50,5 @@ class Model:
     def k_neighbors(self, x):
         if self.knn is not None:
             vec = np.array([w[0].flatten() for w in self.vectors if w[1] == x])
+            vec = self.scaler.transform(vec)
             return self.knn.kneighbors(vec)
