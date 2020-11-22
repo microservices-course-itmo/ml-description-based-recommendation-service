@@ -25,8 +25,8 @@ class Wine2Vec:
         self.word2vec = Word2Vec(corpus, size=300, min_count=1)
         self.tf_idf = self.tf_idf.fit(filtered_data['description'].values.astype('U'))
         tf_idf_weightings = dict(zip(self.tf_idf.get_feature_names(), self.tf_idf.idf_))
-        review_vectors = []
         wine_review_vectors = []
+        counter_empty = 0
         for i, d in enumerate(filtered_data['description'].values.astype('U')):
             descriptor_count = 0
             weighted_terms = []
@@ -38,10 +38,10 @@ class Wine2Vec:
                     weighted_word_vector = tf_idf_weighting * word_vector
                     weighted_terms.append(weighted_word_vector)
                     descriptor_count += 1
-            review_vector = [] if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
-            vector_and_count = [terms, review_vector, descriptor_count, filtered_data['id'][i]]
-            wine_review_vectors.append(vector_and_count)
-            # review_vectors.append(np.array(review_vector))
-        # filtered_data['review_vector'] = review_vectors
-        # filtered_data.reset_index(inplace=True)
+            if len(weighted_terms) == 0:
+                counter_empty += 1
+            review_vector = np.zeros(300) if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
+            vector_and_id = [review_vector, filtered_data['id'][i]]
+            wine_review_vectors.append(vector_and_id)
+        print('Вина, которые не были векторизованы:', counter_empty)
         return wine_review_vectors

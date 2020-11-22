@@ -3,8 +3,6 @@ from sklearn.neighbors import NearestNeighbors
 from preprocessing.vectorization import Wine2Vec
 from data.db import load_all
 import numpy as np
-import pandas as pd
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 
@@ -35,7 +33,7 @@ class Model:
 
     def fit(self, data):
         wine_review_vectors = self.wine2vec.fit_transform(data)
-        X = np.array([w[1].flatten() for w in wine_review_vectors])
+        X = np.array([np.array(w[0]).flatten() for w in wine_review_vectors])
         X = StandardScaler().fit_transform(X)
         self.vectors = wine_review_vectors
         self.knn.fit(X)
@@ -49,5 +47,5 @@ class Model:
 
     def k_neighbors(self, x):
         if self.knn is not None:
-            vec = np.array([w[1].flatten() for w in self.vectors if w[3] == x])
+            vec = np.array([w[0].flatten() for w in self.vectors if w[1] == x])
             return self.knn.kneighbors(vec)
