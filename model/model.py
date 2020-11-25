@@ -46,7 +46,12 @@ class Model:
                 pickle.dump(self, file)
         return self
 
-    def k_neighbors(self, x, k):
-        vec = self.vectors[np.where(self.ids == x)]
-        self.knn.n_neighbors = k
-        return self.knn.kneighbors(vec)
+    def k_neighbors(self, id, k):
+        vec = self.vectors[np.where(self.ids == id)]
+        i, = np.where(self.ids == id)
+        self.knn.n_neighbors = k + 1
+        indices = self.knn.kneighbors(vec, return_distance=False)
+        ind, = np.where(indices.flatten() == i[0])
+        if len(ind) != 0:
+            indices = np.delete(indices, ind[0])
+        return indices

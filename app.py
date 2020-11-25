@@ -19,11 +19,10 @@ def predict():
         try:
             args = request.args
             wine_id, k = map(int, (args['wine_id'], args['k']))
-            distances, indices = model.k_neighbors(wine_id, k)
+            indices = model.k_neighbors(wine_id, k)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
             print(prediction[['id', 'color', 'sugar']])
-            # todo drop
             result = prediction.to_json(orient="index")
             parsed = json.loads(result)
             response = json.dumps(parsed, ensure_ascii=False)
