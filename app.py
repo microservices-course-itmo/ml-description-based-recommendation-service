@@ -19,13 +19,11 @@ def hello_world():
 def predict(wine_id=None):
     if flask.request.method == 'GET':
         try:
-
             distances, indices = model.k_neighbors(wine_id)
             indices = indices.flatten()
             print(indices)
             prediction = load_by_ids(indices)
             print(prediction[['id', 'color', 'sugar']])
-
             # to do drop
             result = prediction.to_json(orient="index")
             parsed = json.loads(result)

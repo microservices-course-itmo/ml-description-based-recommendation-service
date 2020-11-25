@@ -50,5 +50,6 @@ class Model:
     def k_neighbors(self, x):
         if self.knn is not None:
             vec = np.array([w[0].flatten() for w in self.vectors if w[1] == x])
+            # self.knn.n_neighbors = 5
             vec = self.scaler.transform(vec)
             return self.knn.kneighbors(vec)
