@@ -1,12 +1,10 @@
-from flask import Flask, jsonify
-import flask
+from flask import Flask, jsonify, request
 import traceback
 import json
 from model.model import ModelLoader
 from data.db import load_by_ids
 
-model = ModelLoader(True).load()
-
+model = ModelLoader().load()
 app = Flask(__name__, template_folder='templates')
 
 
@@ -15,18 +13,17 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/predict/<int:wine_id>', methods=['POST', 'GET'])
-def predict(wine_id=None):
-    if flask.request.method == 'GET':
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    if request.method == 'GET':
         try:
-
-            distances, indices = model.k_neighbors(wine_id)
+            args = request.args
+            wine_id, k = map(int, (args['wine_id'], args['k']))
+            distances, indices = model.k_neighbors(wine_id, k)
             indices = indices.flatten()
-            print(indices)
             prediction = load_by_ids(indices)
             print(prediction[['id', 'color', 'sugar']])
-
-            # to do drop
+            # todo drop
             result = prediction.to_json(orient="index")
             parsed = json.loads(result)
             response = json.dumps(parsed, ensure_ascii=False)
@@ -36,7 +33,7 @@ def predict(wine_id=None):
                 "trace": traceback.format_exc()
             })
 
-    if flask.request.method == 'POST':
+    if request.method == 'POST':
         return "Page post"
 
 

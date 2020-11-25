@@ -18,14 +18,15 @@ class Wine2Vec:
             for d in filtered_data['description']:
                 print(d, file=corpus_file)
 
-    def fit_transform(self, data):
+    def fit_transform(self, data, return_ids=False):
         filtered_data = self.filter.filter_dataset(data)
         self.save_corpus(filtered_data)
         corpus = Text8Corpus(self.corpus_path)
         self.word2vec = Word2Vec(corpus, size=300, min_count=1)
         self.tf_idf = self.tf_idf.fit(filtered_data['description'].values.astype('U'))
         tf_idf_weightings = dict(zip(self.tf_idf.get_feature_names(), self.tf_idf.idf_))
-        wine_review_vectors = []
+        vectors = []
+        ids = []
         counter_empty = 0
         for i, d in enumerate(filtered_data['description'].values.astype('U')):
             descriptor_count = 0
@@ -41,7 +42,7 @@ class Wine2Vec:
             if len(weighted_terms) == 0:
                 counter_empty += 1
             review_vector = np.zeros(300) if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
-            vector_and_id = [review_vector, filtered_data['id'][i]]
-            wine_review_vectors.append(vector_and_id)
-        print('Вина, которые не были векторизованы:', counter_empty)
-        return wine_review_vectors
+            vectors.append(review_vector)
+            ids.append(filtered_data['id'][i])
+        vectors = np.concatenate(vectors)
+        return vectors, np.array(ids) if return_ids else vectors
