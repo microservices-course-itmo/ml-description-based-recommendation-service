@@ -41,8 +41,9 @@ class Wine2Vec:
                     descriptor_count += 1
             if len(weighted_terms) == 0:
                 counter_empty += 1
-            review_vector = np.zeros(300) if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
+            review_vector = [np.zeros(300)] if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
             vectors.append(review_vector)
             ids.append(filtered_data['id'][i])
+        print('Вин без описания', counter_empty)
         vectors = np.concatenate(vectors)
         return vectors, np.array(ids) if return_ids else vectors
