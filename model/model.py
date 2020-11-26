@@ -1,8 +1,11 @@
 import pickle
 from sklearn.neighbors import NearestNeighbors
+
+from preprocessing.filter import Filter
 from preprocessing.vectorization import Wine2Vec
 from data.db import load_all
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
@@ -46,12 +49,19 @@ class Model:
                 pickle.dump(self, file)
         return self
 
-    def k_neighbors(self, id, k):
-        vec = self.vectors[np.where(self.ids == id)]
+    def k_neighbors(self, id, k, desc):
         i, = np.where(self.ids == id)
+        if len(i) != 0:
+            vec = self.vectors[np.where(self.ids == id)]
+        else:
+            d = {'id': [id], 'description': [desc]}
+            df = pd.DataFrame(data=d)
+            vec = self.wine2vec.fit_transform(df, overwrite_corpus=False)
+            vec = self.scaler.transform(vec[0])
         self.knn.n_neighbors = k + 1
         indices = self.knn.kneighbors(vec, return_distance=False)
-        ind, = np.where(indices.flatten() == i[0])
-        if len(ind) != 0:
-            indices = np.delete(indices, ind[0])
+        if len(i) != 0:
+            ind, = np.where(indices.flatten() == i[0])
+            if len(ind) != 0:
+                indices = np.delete(indices, ind[0])
         return indices

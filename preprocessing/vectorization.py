@@ -18,12 +18,13 @@ class Wine2Vec:
             for d in filtered_data['description']:
                 print(d, file=corpus_file)
 
-    def fit_transform(self, data, return_ids=False):
+    def fit_transform(self, data, return_ids=False, overwrite_corpus=True):
         filtered_data = self.filter.filter_dataset(data)
-        self.save_corpus(filtered_data)
-        corpus = Text8Corpus(self.corpus_path)
-        self.word2vec = Word2Vec(corpus, size=300, min_count=1)
-        self.tf_idf = self.tf_idf.fit(filtered_data['description'].values.astype('U'))
+        if overwrite_corpus:
+            self.save_corpus(filtered_data)
+            self.tf_idf = self.tf_idf.fit(filtered_data['description'].values.astype('U'))
+            corpus = Text8Corpus(self.corpus_path)
+            self.word2vec = Word2Vec(corpus, size=300, min_count=1)
         tf_idf_weightings = dict(zip(self.tf_idf.get_feature_names(), self.tf_idf.idf_))
         vectors = []
         ids = []
@@ -44,6 +45,6 @@ class Wine2Vec:
             review_vector = [np.zeros(300)] if not len(weighted_terms) else sum(weighted_terms) / len(weighted_terms)
             vectors.append(review_vector)
             ids.append(filtered_data['id'][i])
-        print('Вин без описания', counter_empty)
+        # print('Вин без описания', counter_empty)
         vectors = np.concatenate(vectors)
         return vectors, np.array(ids) if return_ids else vectors

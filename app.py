@@ -8,18 +8,14 @@ model = ModelLoader().load()
 app = Flask(__name__, template_folder='templates')
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'GET':
         try:
             args = request.args
             wine_id, k = map(int, (args['wine_id'], args['k']))
-            indices = model.k_neighbors(wine_id, k)
+            desc = args['description']
+            indices = model.k_neighbors(wine_id, k, desc)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
             print(prediction[['id', 'color', 'sugar']])
