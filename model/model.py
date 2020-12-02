@@ -1,7 +1,5 @@
 import pickle
 from sklearn.neighbors import NearestNeighbors
-
-from preprocessing.filter import Filter
 from preprocessing.vectorization import Wine2Vec
 from data.db import load_all
 import numpy as np
@@ -58,6 +56,9 @@ class Model:
             df = pd.DataFrame(data=d)
             vec = self.wine2vec.fit_transform(df, overwrite_corpus=False)
             vec = self.scaler.transform(vec[0])
+            # self.vectors = np.vstack([self.vectors, vec.flatten()])
+            # self.ids = np.append(self.ids, id)
+            # self.dump()
         self.knn.n_neighbors = k + 1
         indices = self.knn.kneighbors(vec, return_distance=False)
         if len(i) != 0:
