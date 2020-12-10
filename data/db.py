@@ -8,5 +8,5 @@ def load_all():
 
 
 def load_by_ids(ids):
-    alcohol = pd.read_csv('data/alcohol.csv')
+    alcohol = pd.read_csv('data/alcohol30000.csv')
     return alcohol.iloc[ids]
