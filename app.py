@@ -4,8 +4,6 @@ import json
 from model.model import ModelLoader
 from data.db import load_by_ids
 
-
-model = ModelLoader().load()
 app = Flask(__name__, template_folder='templates')
 
 
@@ -13,6 +11,7 @@ app = Flask(__name__, template_folder='templates')
 def predict():
     if request.method == 'GET':
         try:
+            model = ModelLoader().load()
             args = request.args
             wine_id, k = map(int, (args['wine_id'], args['k']))
             desc = args['description']
@@ -31,6 +30,18 @@ def predict():
 
     if request.method == 'POST':
         return "Page post"
+
+
+@app.route('/train', methods=['POST'])
+def train():
+    if request.method == 'POST':
+        try:
+            ModelLoader(True).load()
+            return "model retrain"
+        except:
+            return jsonify({
+                "trace": traceback.format_exc()
+            })
 
 
 if __name__ == "__main__":
