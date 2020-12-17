@@ -10,11 +10,12 @@ migrate = Migrate(app, db)
 
 
 def load_all():
-    df = pd.read_csv('data/alcohol.csv').head(30000)
+    df = pd.read_sql(f'SELECT * FROM wines', app.config['SQLALCHEMY_DATABASE_URI'])
     df['description'] = df['aroma'] + ' ' + df['taste'] + ' ' + df['description']
     return df
 
 
 def load_by_ids(ids):
-    alcohol = pd.read_csv('data/alcohol30000.csv')
-    return alcohol.iloc[ids]
+    indices = tuple(ids)
+    alcohol = pd.read_sql(f'SELECT id, name, type, crop_year, manufacturer, brand, volume, country, region, color, grape, sugar FROM wines WHERE id IN {indices}', app.config['SQLALCHEMY_DATABASE_URI'])
+    return alcohol
