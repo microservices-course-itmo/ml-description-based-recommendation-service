@@ -1,0 +1,35 @@
+summary: "Predict wines"
+description: "Basic wine recommendation by description"
+dom_id: "#swagger-ui"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+tags:
+  - "ml-description-based-recommendation-service"
+parameters:
+  - in: query
+    name: "wine_id"
+    description: "id wine"
+    required: true
+    schema:
+      type: integer
+  - in: query
+    name: "k"
+    description: "number of wine recommendations"
+    required: true
+    schema:
+      type: integer
+  - in: query
+    name: "description"
+    description: "content of fields 'aroma' + 'taste' + 'description'"
+    required: true
+    schema:
+      type: string
+responses:
+  200:
+    description: "Wines predicted"
+  503:
+    description: "internal server error"
+
+
