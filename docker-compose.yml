@@ -1,7 +1,8 @@
 version: "3.8"
 services:
   web:
-    build: .
+    build:
+      context: ./
     environment:
       - FLASK_APP=app.py
     ports:
