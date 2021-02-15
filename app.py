@@ -8,6 +8,7 @@ from flasgger import Swagger
 from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
+import os
 
 app = Flask(__name__, template_folder='templates')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
