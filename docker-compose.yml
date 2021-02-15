@@ -6,7 +6,7 @@ services:
     environment:
       - FLASK_APP=app.py
     ports:
-      - "5432:5432"
+      - "5000:5000"
     depends_on:
       - db
     links:
@@ -18,5 +18,5 @@ services:
       - POSTGRES_PASSWORD=ml_pass
       - POSTGRES_DB=ml_service_db
     ports:
-      - "5000:5000"
+      - "5432:5432"
 
