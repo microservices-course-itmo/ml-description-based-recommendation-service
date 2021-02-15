@@ -11,6 +11,8 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__, template_folder='templates')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
+# db = SQLAlchemy(app)
 
 df_db = pd.read_csv('data/alcohol_15000.csv')
 df_db.columns = [c.lower() for c in df_db.columns]
@@ -43,11 +45,11 @@ def predict():
             model = ModelLoader().load()
 
             if 'wine_id' in request.args:
-                wine_id = request.args['wine_id']
+                wine_id = int(request.args['wine_id'])
             else:
                 return "Error: No wine_id field provided. Please specify an wine_id."
 
-            k = request.args['k'] if 'k' in request.args else 10
+            k = int(request.args['k']) if 'k' in request.args else 10
             desc = request.args['description'] if 'description' in request.args else ''
 
             indices = model.k_neighbors(wine_id, k, desc)
