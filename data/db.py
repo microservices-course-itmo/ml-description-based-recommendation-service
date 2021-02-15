@@ -9,7 +9,7 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://os.environ.get('S_POSTGRES_USER'):os.environ.get('S_POSTGRES_PASSWORD')@os.environ.get('S_POSTGRES_HOST'):5432/os.environ.get('S_POSTGRES_DB')"
 
 # db = SQLAlchemy(app)
-engine = create_engine('postgresql://ml_service:ml_pass@localhost:5432/ml_service_db', echo=True)
+engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 migrate = Migrate(app, engine)
 
 
