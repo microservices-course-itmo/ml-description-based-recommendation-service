@@ -7,15 +7,18 @@ import pandas as pd
 from flasgger import Swagger
 from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 
 app = Flask(__name__, template_folder='templates')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@db:5432/ml_service_db"
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@db:5432/ml_service_db"
+# db = SQLAlchemy(app)
 df_db = pd.read_csv('data/alcohol_15000.csv')
 df_db.columns = [c.lower() for c in df_db.columns]
-df_db.to_sql("wines", app.config['SQLALCHEMY_DATABASE_URI'])
+# df_db.to_sql("wines", app.config['SQLALCHEMY_DATABASE_URI'])
+engine = create_engine('postgresql://ml_service:ml_pass@db:5432/ml_service_db', echo=True)
+df_db.to_sql("wines", engine)
 
 swagger_config = {
     "headers": [],
