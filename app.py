@@ -14,7 +14,7 @@ app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
 
 df_db = pd.read_csv('data/alcohol_15000.csv')
 df_db.columns = [c.lower() for c in df_db.columns]
-engine = create_engine('postgresql://ml_service:ml_pass@ml_service_db:5432/ml_service_db', echo=True)
+engine = create_engine('postgresql://ml_service:ml_pass@db:5432/ml_service_db', echo=True)
 df_db.to_sql("wines", engine)
 
 swagger_config = {
