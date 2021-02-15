@@ -1,23 +1,21 @@
 version: "3.8"
 services:
+  db:
+    image: postgres:13.0
+    environment:
+      - POSTGRES_USER=ml_service
+      - POSTGRES_PASSWORD=ml_pass
+      - POSTGRES_DB=ml_service_db
+    ports:
+      - "5000:5000"
+
   web:
     build:
       context: ./
     environment:
       - FLASK_APP=app.py
     ports:
-      - "5000:5000"
-    links:
-      - db:db
+      - "5432:5432"
     depends_on:
       - db
-  db:
-    image: library/postgres:13.0
-    environment:
-      - POSTGRES_USER=ml_service
-      - POSTGRES_DB=ml_service_db
-      - POSTGRES_PASSWORD=ml_pass
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-volumes:
-  postgres_data:
+
