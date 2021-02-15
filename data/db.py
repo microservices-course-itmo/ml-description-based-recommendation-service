@@ -13,7 +13,7 @@ migrate = Migrate(app, engine)
 
 
 def load_all():
-    df = pd.read_sql(f'SELECT * FROM wines', app.config['SQLALCHEMY_DATABASE_URI'])
+    df = pd.read_sql(f'SELECT * FROM wines', engine)
     df['description'] = df['aroma'] + ' ' + df['taste'] + ' ' + df['description']
     return df
 
