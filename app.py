@@ -41,9 +41,15 @@ def predict():
     if request.method == 'GET':
         try:
             model = ModelLoader().load()
-            args = request.args
-            wine_id, k = map(int, (args['wine_id'], args['k']))
-            desc = args['description']
+
+            if 'wine_id' in request.args:
+                wine_id = request.args['wine_id']
+            else:
+                return "Error: No wine_id field provided. Please specify an wine_id."
+
+            k = request.args['k'] if 'k' in request.args else 10
+            desc = request.args['description'] if 'description' in request.args else ''
+
             indices = model.k_neighbors(wine_id, k, desc)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
