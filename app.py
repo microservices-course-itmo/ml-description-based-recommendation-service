@@ -12,7 +12,7 @@ from sqlalchemy import create_engine
 app = Flask(__name__, template_folder='templates')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@os.environ['S_POSTGRES_DB']:5432/ml_service_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://os.environ.get('S_POSTGRES_USER'):os.environ.get('S_POSTGRES_PASSWORD')@os.environ.get('S_POSTGRES_HOST'):5432/os.environ.get('S_POSTGRES_DB')"
 db = SQLAlchemy(app)
 df_db = pd.read_csv('data/alcohol_15000.csv')
 df_db.columns = [c.lower() for c in df_db.columns]
