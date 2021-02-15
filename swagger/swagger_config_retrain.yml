@@ -1,0 +1,16 @@
+summary: "Retrain model"
+description: "retraining the model on data. takes a long time"
+dom_id: "#swagger-ui"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+tags:
+  - "ml-description-based-recommendation-service"
+responses:
+  200:
+    description: "Model retrain"
+  503:
+    description: "internal server error"
+
+
