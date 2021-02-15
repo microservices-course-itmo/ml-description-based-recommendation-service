@@ -3,9 +3,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import create_engine
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@db:5432/ml_service_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://os.environ.get('S_POSTGRES_USER'):os.environ.get('S_POSTGRES_PASSWORD')@os.environ.get('S_POSTGRES_HOST'):5432/os.environ.get('S_POSTGRES_DB')"
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
