@@ -35,7 +35,7 @@ swagger_config = {
         "https"
       ],
     "swagger_ui": True,
-    "specs_route": "/ml-description-based-recommendation-service/swagger/"
+    "specs_route": "/swagger/"
 }
 
 swagger = Swagger(app, config=swagger_config)
