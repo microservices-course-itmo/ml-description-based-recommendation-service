@@ -9,11 +9,11 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_url_path='',
+            static_folder='static')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
-
 # df_db = pd.read_csv('data/alcohol_15000.csv')
 # df_db.columns = [c.lower() for c in df_db.columns]
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
@@ -29,7 +29,11 @@ swagger_config = {
             "model_filter": lambda tag: True
         }
     ],
-    "static_url_path": "/flagger_static",
+    "basePath": "/api",
+    "schemes": [
+        "http",
+        "https"
+      ],
     "swagger_ui": True,
     "specs_route": "/swagger/"
 }
