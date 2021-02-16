@@ -9,7 +9,7 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__, template_folder='templates', static_url_path='', static_folder='static')
+app = Flask(__name__, template_folder='templates')
 app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
@@ -34,6 +34,7 @@ swagger_config = {
         "https"
       ],
     "static_url_path": "/flasgger_static",
+    "static_folder": "static",  # must be set by user
     "swagger_ui": True,
     "specs_route": "/swagger/"
 }
