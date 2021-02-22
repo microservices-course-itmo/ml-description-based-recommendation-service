@@ -9,8 +9,8 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__, template_folder='templates')
-app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 2}
+app = Flask(__name__)
+app.config["SWAGGER"] = {"title": "Swagger-UI", "uiversion": 3}
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
 # df_db = pd.read_csv('data/alcohol_15000.csv')
@@ -33,8 +33,8 @@ swagger_config = {
         "http",
         "https"
       ],
-    "static_url_path": "/flagger_static",
-    "static_folder": "static",  # must be set by user
+    "static_url_path": "/ml-description-based-recommendation-service/flagger_static",
+#     "static_folder": "static",  # must be set by user
     "swagger_ui": True,
     "specs_route": "/swagger/"
 }
