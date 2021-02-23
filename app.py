@@ -29,8 +29,8 @@ app.config["SWAGGER"] = {
     'openapi': '3.0.2'
     # 'prefix_ids': True
 }
-Swagger(app, template_file='swagger/swagger_config_predict.yml')
 
+swagger = Swagger(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
 # df_db = pd.read_csv('data/alcohol_15000.csv')
@@ -40,7 +40,7 @@ Swagger(app, template_file='swagger/swagger_config_predict.yml')
 
 
 @app.route('/predict', methods=['GET'])
-@swag_from("swagger/swagger_config_predict.yml")
+@swag_from("swagger/swagger_config_predict.yml", validation=True)
 def predict():
     if request.method == 'GET':
         try:
@@ -69,7 +69,7 @@ def predict():
 
 
 @app.route('/retrain', methods=['POST'])
-@swag_from("swagger/swagger_config_retrain.yml")
+@swag_from("swagger/swagger_config_retrain.yml", validation=True)
 def train():
     if request.method == 'POST':
         try:
