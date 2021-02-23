@@ -21,7 +21,7 @@ app.config["SWAGGER"] = {
     "specs": [
             {
                 "endpoint": "predict",
-                "route": "/ml-description-based-recommendation-service",
+                "route": "/ml-description-based-recommendation-service/swagger",
                 "rule_filter": lambda rule: True,
                 "model_filter": lambda tag: True
             }
