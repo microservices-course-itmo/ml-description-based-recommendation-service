@@ -15,15 +15,21 @@ app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "static_url_path": "/ml-description-based-recommendation-service/static"
+    "specs_route": "/swagger/",
+    "static_url_path": "/ml-description-based-recommendation-service/static",
+    # "static_url_path": "/static",
+    "specs": [
+            {
+                "endpoint": "predict",
+                "route": "/ml-description-based-recommendation-service",
+                "rule_filter": lambda rule: True,
+                "model_filter": lambda tag: True
+            }
+        ],
     # 'openapi': '3.0.2'
     # 'prefix_ids': True
 }
-# swagger_config = Swagger.DEFAULT_CONFIG
-# swagger_config['swagger_ui_bundle_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js'
-# swagger_config['swagger_ui_standalone_preset_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js'
-# swagger_config['jquery_js'] = '//unpkg.com/jquery@2.2.4/dist/jquery.min.js'
-# swagger_config['swagger_ui_css'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui.css'
+
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
