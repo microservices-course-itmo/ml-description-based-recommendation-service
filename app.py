@@ -9,7 +9,7 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 
 app.config["SWAGGER"] = {
     "title": "Swagger-UI",
@@ -45,7 +45,8 @@ swagger_config = {
         "http",
         "https"
       ],
-    "static_url_path": "/ml-description-based-recommendation-service/static",
+    "static_url_path": "/static",
+    # "static_url_path": "/ml-description-based-recommendation-service/static",
     "static_folder": "static",  # must be set by user
     "swagger_ui": True,
     "specs_route": "/swagger/"
