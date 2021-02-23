@@ -9,7 +9,8 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__, static_url_path='/ml-description-based-recommendation-service/static', static_folder='static')
+app = Flask(__name__)
+# app = Flask(__name__, static_url_path='', static_folder='static', template_folder='template')
 
 app.config["SWAGGER"] = {
     "title": "Swagger-UI",
@@ -30,29 +31,30 @@ app.config["SWAGGER"] = {
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
 
-swagger_config = {
-    "headers": [],
-    "specs": [
-        {
-            "endpoint": "predict",
-            "route": "/ml-description-based-recommendation-service",
-            "rule_filter": lambda rule: True,
-            "model_filter": lambda tag: True
-        }
-    ],
-    "basePath": "/api",
-    "schemes": [
-        "http",
-        "https"
-      ],
-    # "static_url_path": "/static",
-    "static_url_path": "/ml-description-based-recommendation-service/static",
-    "static_folder": "static",  # must be set by user
-    "swagger_ui": True,
-    "specs_route": "/swagger/"
-}
+# swagger_config = {
+#     "headers": [],
+#     "specs": [
+#         {
+#             "endpoint": "predict",
+#             "route": "/ml-description-based-recommendation-service",
+#             "rule_filter": lambda rule: True,
+#             "model_filter": lambda tag: True
+#         }
+#     ],
+#     "basePath": "/api",
+#     "schemes": [
+#         "http",
+#         "https"
+#       ],
+#     "static_url_path": "",
+#     # "static_url_path": "/ml-description-based-recommendation-service/static",
+#     "static_folder": "static",  # must be set by user
+#     "swagger_ui": True,
+#     "specs_route": "/swagger/"
+# }
 
-swagger = Swagger(app, config=swagger_config)
+# swagger = Swagger(app, config=swagger_config)
+Swagger(app)
 
 
 @app.route('/predict', methods=['GET'])
