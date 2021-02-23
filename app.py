@@ -19,13 +19,13 @@ app.config["SWAGGER"] = {
     "static_url_path": "/ml-description-based-recommendation-service/static",
     # "static_url_path": "/static",
     "specs": [
-            {
-                "endpoint": "predict",
-                "route": "/ml-description-based-recommendation-service/swagger",
-                "rule_filter": lambda rule: True,
-                "model_filter": lambda tag: True
-            }
-        ],
+        {
+            "endpoint": 'apispec_1',
+            "route": '/ml-description-based-recommendation-service/apispec_1.json',
+            "rule_filter": lambda rule: True,  # all in
+            "model_filter": lambda tag: True,  # all in
+        }
+    ],
     # 'openapi': '3.0.2'
     # 'prefix_ids': True
 }
