@@ -15,13 +15,13 @@ app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "specs_route": "/ml-description-based-recommendation-service/swagger/",
+    "specs_route": "/swagger/",
     "static_url_path": "/ml-description-based-recommendation-service/static",
     # "static_url_path": "/static",
     "specs": [
         {
-            "endpoint": 'apispec_1',
-            "route": '/ml-description-based-recommendation-service/apispec_1.json',
+            "endpoint": 'swagger',
+            "route": '/ml-description-based-recommendation-service/swagger.json',
             "rule_filter": lambda rule: True,  # all in
             "model_filter": lambda tag: True,  # all in
         }
@@ -29,7 +29,7 @@ app.config["SWAGGER"] = {
     # 'openapi': '3.0.2'
     # 'prefix_ids': True
 }
-
+Swagger(app)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
@@ -37,31 +37,6 @@ app.config["SWAGGER"] = {
 # df_db.columns = [c.lower() for c in df_db.columns]
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
-
-# swagger_config = {
-#     "headers": [],
-#     "specs": [
-#         {
-#             "endpoint": "predict",
-#             "route": "/ml-description-based-recommendation-service",
-#             "rule_filter": lambda rule: True,
-#             "model_filter": lambda tag: True
-#         }
-#     ],
-#     "basePath": "/api",
-#     "schemes": [
-#         "http",
-#         "https"
-#       ],
-#     "static_url_path": "",
-#     # "static_url_path": "/ml-description-based-recommendation-service/static",
-#     "static_folder": "static",  # must be set by user
-#     "swagger_ui": True,
-#     "specs_route": "/swagger/"
-# }
-
-# swagger = Swagger(app, config=swagger_config)
-Swagger(app)
 
 
 @app.route('/predict', methods=['GET'])
