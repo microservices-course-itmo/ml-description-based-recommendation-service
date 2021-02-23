@@ -15,7 +15,7 @@ app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "specs_route": "/swagger/",
+    "specs_route": "/ml-description-based-recommendation-service/swagger/",
     "static_url_path": "/ml-description-based-recommendation-service/static",
     # "static_url_path": "/static",
     "specs": [
