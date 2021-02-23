@@ -15,7 +15,7 @@ app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "specs_route": "/swagger/",
+    "specs_route": "/",
     "static_url_path": "/ml-description-based-recommendation-service/static",
     # "static_url_path": "/static",
     "specs": [
@@ -26,7 +26,7 @@ app.config["SWAGGER"] = {
             "model_filter": lambda tag: True,  # all in
         }
     ],
-    # 'openapi': '3.0.2'
+    'openapi': '3.0.2'
     # 'prefix_ids': True
 }
 Swagger(app)
@@ -40,7 +40,17 @@ Swagger(app)
 
 
 @app.route('/predict', methods=['GET'])
-@swag_from("swagger/swagger_config_predict.yml")
+# @swag_from("swagger/swagger_config_predict.yml")
+@swag_from({
+    "responses": {
+        400: {
+            "description": "Invalid action"
+        },
+        401: {
+            "description": "Login required"
+        }
+    }
+})
 def predict():
     if request.method == 'GET':
         try:
@@ -69,7 +79,17 @@ def predict():
 
 
 @app.route('/retrain', methods=['POST'])
-@swag_from("swagger/swagger_config_retrain.yml")
+# @swag_from("swagger/swagger_config_retrain.yml")
+@swag_from({
+    "responses": {
+        400: {
+            "description": "Invalid action"
+        },
+        401: {
+            "description": "Login required"
+        }
+    }
+})
 def train():
     if request.method == 'POST':
         try:
