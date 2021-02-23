@@ -9,13 +9,13 @@ from flasgger.utils import swag_from
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
-app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='template')
+app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
 app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "specs_route": "/",
+    "specs_route": "/swagger/",
     "static_url_path": "/ml-description-based-recommendation-service/static",
     # "static_url_path": "/static",
     "specs": [
@@ -29,7 +29,7 @@ app.config["SWAGGER"] = {
     'openapi': '3.0.2'
     # 'prefix_ids': True
 }
-Swagger(app)
+Swagger(app, template_file='swagger/swagger_config_predict.yml')
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
 # db = SQLAlchemy(app)
@@ -40,17 +40,7 @@ Swagger(app)
 
 
 @app.route('/predict', methods=['GET'])
-# @swag_from("swagger/swagger_config_predict.yml")
-@swag_from({
-    "responses": {
-        400: {
-            "description": "Invalid action"
-        },
-        401: {
-            "description": "Login required"
-        }
-    }
-})
+@swag_from("swagger/swagger_config_predict.yml")
 def predict():
     if request.method == 'GET':
         try:
@@ -79,17 +69,7 @@ def predict():
 
 
 @app.route('/retrain', methods=['POST'])
-# @swag_from("swagger/swagger_config_retrain.yml")
-@swag_from({
-    "responses": {
-        400: {
-            "description": "Invalid action"
-        },
-        401: {
-            "description": "Login required"
-        }
-    }
-})
+@swag_from("swagger/swagger_config_retrain.yml")
 def train():
     if request.method == 'POST':
         try:
