@@ -10,13 +10,13 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 
 # app = Flask(__name__)
-app = Flask(__name__, static_url_path='', static_folder='static', template_folder='template')
+app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='template')
 
 app.config["SWAGGER"] = {
     "title": "Swagger-UI",
     "uiversion": 3,
     "static_folder": "static",
-    "static_url_path": ""
+    "static_url_path": "/static"
     # 'openapi': '3.0.2'
     # 'prefix_ids': True
 }
