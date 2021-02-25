@@ -40,7 +40,7 @@ swagger = Swagger(app)
 
 
 @app.route('/predict', methods=['GET'])
-@swag_from("swagger/swagger_config_predict.yml", validation=True)
+@swag_from("swagger/swagger_config_predict.yml")
 def predict():
     if request.method == 'GET':
         try:
@@ -69,7 +69,7 @@ def predict():
 
 
 @app.route('/retrain', methods=['POST'])
-@swag_from("swagger/swagger_config_retrain.yml", validation=True)
+@swag_from("swagger/swagger_config_retrain.yml")
 def train():
     if request.method == 'POST':
         try:
