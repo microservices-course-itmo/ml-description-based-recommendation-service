@@ -13,17 +13,17 @@ app.config["SWAGGER"] = {
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
-    "static_url_path": "/ml-description-based-recommendation-service/static",
-    # "static_url_path": "/static",
+    # "static_url_path": "/ml-description-based-recommendation-service/static",
+    "static_url_path": "/static",
     "specs": [
         {
             "endpoint": 'swagger',
-            "route": '/swagger.json',
+            "route": '/ml-description-based-recommendation-service/swagger.json',
             "rule_filter": lambda rule: True,
             "model_filter": lambda tag: True,
         }
     ],
-    'openapi': '3.0.2'
+    'openapi': '3.0.2',
     # 'prefix_ids': True
 }
 
@@ -35,11 +35,12 @@ swagger = Swagger(app)
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
 
-# @app.route('/swagger.json', methods=['GET'])
-# def returnSwagger():
-#     with open('swagger.json', 'r', encoding='utf-8') as f:
-#         text = json.load(f)
-#     return jsonify(text)
+
+@app.route('/swagger.json', methods=['GET'])
+def returnSwagger():
+    with open('swagger.json', 'r', encoding='utf-8') as f:
+        text = json.load(f)
+    return jsonify(text)
 
 
 @app.route('/predict', methods=['GET'])
