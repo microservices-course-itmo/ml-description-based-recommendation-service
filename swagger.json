@@ -1,1 +1,51 @@
-{"definitions":{},"info":{"description":"powered by Flasgger","termsOfService":"/tos","title":"Swagger-UI","version":"0.0.1"},"paths":{"/predict":{"get":{"consumes":["application/json"],"description":"Basic wine recommendation by description","parameters":[{"description":"id wine","in":"query","name":"wine_id","required":true,"schema":{"type":"integer"}},{"description":"number of wine recommendations","in":"query","name":"k","required":true,"schema":{"type":"integer"}},{"description":"content of fields 'aroma' + 'taste' + 'description'","in":"query","name":"description","required":true,"schema":{"type":"string"}}],"produces":["application/json"],"responses":{"200":{"description":"Wines predicted"},"503":{"description":"internal server error"}},"summary":"Predict wines","tags":["ml-description-based-recommendation-service"]}},"/retrain":{"post":{"consumes":["application/json"],"description":"retraining the model on data. takes a long time","produces":["application/json"],"responses":{"200":{"description":"Model retrain"},"503":{"description":"internal server error"}},"summary":"Retrain model","tags":["ml-description-based-recommendation-service"]}}},"swagger":"2.0"}
+{
+  "definitions":{},
+  "info":{
+    "description":"powered by Flasgger",
+    "termsOfService":"/tos",
+    "title":"Swagger-UI",
+    "version":"0.0.1"},
+  "host": "77.234.215.138:18080",
+  "basePath": "/ml-description-based-recommendation-service",
+  "paths":{
+    "/predict":{
+      "get":{
+        "consumes":["application/json"],
+        "description":"Basic wine recommendation by description",
+        "parameters":[{
+          "description":"id wine",
+          "in":"query",
+          "name":"wine_id",
+          "required":true,
+          "schema":{"type":"integer"}},
+          {
+            "description":"number of wine recommendations",
+            "in":"query",
+            "name":"k",
+            "required":true,
+            "schema":{"type":"integer"}},
+          {
+            "description":"content of fields 'aroma' + 'taste' + 'description'",
+            "in":"query",
+            "name":"description",
+            "required":true,
+            "schema":{"type":"string"}}],
+        "produces":["application/json"],
+        "responses":{
+          "200":{"description":"Wines predicted"},
+          "503":{"description":"internal server error"}},
+        "summary":"Predict wines",
+        "tags":["ml-description-based-recommendation-service"]}},
+    "/retrain":{
+      "post":{
+        "consumes":["application/json"],
+        "description":"retraining the model on data. takes a long time",
+        "produces":["application/json"],
+        "responses":{
+          "200":{"description":"Model retrain"},
+          "503":{"description":"internal server error"}},
+        "summary":"Retrain model","tags":["ml-description-based-recommendation-service"]}
+    }
+  },
+  "swagger":"2.0"
+}

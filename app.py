@@ -3,11 +3,8 @@ import traceback
 import json
 from model.model import ModelLoader
 from data.db import load_by_ids
-import pandas as pd
 from flasgger import Swagger
 from flasgger.utils import swag_from
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
@@ -21,9 +18,9 @@ app.config["SWAGGER"] = {
     "specs": [
         {
             "endpoint": 'swagger',
-            "route": '/ml-description-based-recommendation-service/swagger.json',
-            "rule_filter": lambda rule: True,  # all in
-            "model_filter": lambda tag: True,  # all in
+            "route": '/swagger.json',
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
         }
     ],
     'openapi': '3.0.2'
@@ -37,6 +34,12 @@ swagger = Swagger(app)
 # df_db.columns = [c.lower() for c in df_db.columns]
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
+
+# @app.route('/swagger.json', methods=['GET'])
+# def returnSwagger():
+#     with open('swagger.json', 'r', encoding='utf-8') as f:
+#         text = json.load(f)
+#     return jsonify(text)
 
 
 @app.route('/predict', methods=['GET'])
