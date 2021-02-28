@@ -1,5 +1,5 @@
-summary: "Predict wines"
-description: "Basic wine recommendation by description"
+summary: "Get recommendations"
+description: "Wine recommendation by description"
 dom_id: "#swagger-ui"
 consumes:
   - "application/json"
@@ -10,26 +10,26 @@ tags:
 parameters:
   - in: query
     name: "wine_id"
-    description: "id wine"
+    description: "wine id in full catalogue"
     required: true
     schema:
       type: integer
   - in: query
     name: "k"
-    description: "number of wine recommendations"
+    description: "desired number of recommendations"
     required: true
     schema:
       type: integer
   - in: query
     name: "description"
-    description: "content of fields 'aroma' + 'taste' + 'description'"
+    description: "full wine description, containing 'aroma' + 'taste' + 'description' fields"
     required: true
     schema:
       type: string
 responses:
   200:
-    description: "Wines predicted"
+    description: "Successful recommendation"
   503:
-    description: "internal server error"
+    description: "Internal server error"
 
 
