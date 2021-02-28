@@ -16,8 +16,8 @@ app.config["SWAGGER"] = {
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
-    "static_url_path": "/ml-description-based-recommendation-service/static",
-    # "static_url_path": "/static",
+    # "static_url_path": "/ml-description-based-recommendation-service/static",
+    "static_url_path": "/static",
     "specs": [
         {
             "endpoint": 'swagger',
@@ -35,12 +35,12 @@ swagger = Swagger(app)
 # db = SQLAlchemy(app)
 # df_db = pd.read_csv('data/alcohol_15000.csv')
 # df_db.columns = [c.lower() for c in df_db.columns]
-# engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
+# engine = create_engine('postgresql://ml_service:ml_pass@db:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
 
 
 @app.route('/predict', methods=['GET'])
-@swag_from("swagger/swagger_config_predict.yml", validation=True)
+@swag_from("swagger/swagger_config_predict.yml")
 def predict():
     if request.method == 'GET':
         try:

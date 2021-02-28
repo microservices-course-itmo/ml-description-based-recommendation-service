@@ -12,6 +12,13 @@ engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service
 migrate = Migrate(app, engine)
 
 
+def load_catalogue():
+    catalogue = create_engine("postgresql://catalog_service_reader:readonly@77.234.215.138:18095/catalog_service_db")
+    fields = "id, description"
+    df = pd.read_sql(f"select {fields} from wine_position", catalogue)
+    df.to_sql("wines", engine)
+
+
 def load_all():
     df = pd.read_sql(f'SELECT * FROM wines', engine)
     df['description'] = df['aroma'] + ' ' + df['taste'] + ' ' + df['description']
