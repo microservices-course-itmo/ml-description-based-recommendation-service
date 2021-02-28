@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from sqlalchemy import create_engine
 
 app = Flask(__name__)
-engine = create_engine('postgresql://ml_service:ml_pass@db:5432/ml_service_db', echo=True)
+engine = create_engine('postgresql://ml_service:ml_pass@postgress:5432/ml_service_db', echo=True)
 migrate = Migrate(app, engine)
 
 
