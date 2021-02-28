@@ -13,8 +13,8 @@ app.config["SWAGGER"] = {
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
-    # "static_url_path": "/ml-description-based-recommendation-service/static",
-    "static_url_path": "/static",
+    "static_url_path": "/ml-description-based-recommendation-service/static",
+    # "static_url_path": "/static",
     "specs": [
         {
             "endpoint": 'swagger',
