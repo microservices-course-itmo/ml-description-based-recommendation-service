@@ -13,8 +13,8 @@ app.config["SWAGGER"] = {
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
-    "static_url_path": "/ml-description-based-recommendation-service/static",
-    # "static_url_path": "/static",
+    "static_url_path": "/ml-description-based-recommendation-service/static",  # server settings
+    # "static_url_path": "/static",  # local settings
     "specs": [
         {
             "endpoint": 'swagger',
@@ -24,16 +24,9 @@ app.config["SWAGGER"] = {
         }
     ],
     'openapi': '3.0.2',
-    # 'prefix_ids': True
 }
 
 swagger = Swagger(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://ml_service:ml_pass@postgres:5432/ml_service_db"
-# db = SQLAlchemy(app)
-# df_db = pd.read_csv('data/alcohol_15000.csv')
-# df_db.columns = [c.lower() for c in df_db.columns]
-# engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
-# df_db.to_sql("wines", engine)
 
 
 @app.route('/swagger.json', methods=['GET'])
