@@ -1,4 +1,4 @@
-# ml-team-1-service
+# ml-description-based-recommendation-service
 
 Ссылка на google drive, где лежат файлы, весом более 100Mb из папки data и models:
 https://drive.google.com/drive/folders/1pdqDUX_1V66NUDnjtJu561CKcsn7RmZB?usp=sharing
@@ -8,6 +8,12 @@ https://drive.google.com/drive/folders/1pdqDUX_1V66NUDnjtJu561CKcsn7RmZB?usp=sha
 `docker-compose build `
 
 `docker-compose up`
+
+Swagger:
+http://77.234.215.138:18080/ml-description-based-recommendation-service/swagger/
+
+Notion:
+https://www.notion.so/ML-Team-1-bb5572fa843147a08befe643211b6b6c
 
 Примеры запросов:
 
