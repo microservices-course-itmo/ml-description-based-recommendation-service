@@ -9,7 +9,7 @@ from flasgger.utils import swag_from
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
 app.config["SWAGGER"] = {
-    "title": "Swagger-UI",
+    "title": "ML-description-based-recommendation",
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
@@ -31,7 +31,7 @@ swagger = Swagger(app)
 
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
-    with open('swagger.json', 'r', encoding='utf-8') as f:
+    with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
         text = json.load(f)
     return jsonify(text)
 
