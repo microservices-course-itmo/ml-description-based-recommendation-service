@@ -23,7 +23,7 @@ parameters:
   - in: query
     name: "description"
     description: "full wine description, containing 'aroma' + 'taste' + 'description' fields"
-    required: true
+    required: false
     schema:
       type: string
 responses:
