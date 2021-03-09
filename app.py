@@ -27,8 +27,7 @@ app.config["SWAGGER"] = {
 }
 
 swagger = Swagger(app)
-drop_table('wines')
-load_catalogue()
+# load_catalogue()
 
 
 @app.route('/swagger.json', methods=['GET'])
