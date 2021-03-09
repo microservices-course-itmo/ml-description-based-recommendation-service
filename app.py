@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import traceback
 import json
 from model.model import ModelLoader
-from data.db import load_by_ids
+from data.db import load_by_ids, drop_table, load_catalogue
 import pandas as pd
 from flasgger import Swagger
 from flasgger.utils import swag_from
@@ -37,6 +37,8 @@ swagger = Swagger(app)
 # df_db.columns = [c.lower() for c in df_db.columns]
 # engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 # df_db.to_sql("wines", engine)
+drop_table('wines')
+load_catalogue()
 
 
 @app.route('/predict', methods=['GET'])
