@@ -12,7 +12,7 @@ app.config["SWAGGER"] = {
     "title": "ML-description-based-recommendation",
     "uiversion": 3,
     "static_folder": "static",
-    # "specs_route": "/swagger/",
+    "specs_route": "/swagger/",
     "static_url_path": "/ml-description-based-recommendation-service/static",  # server settings
     # "static_url_path": "/static",  # local settings
     "specs": [
@@ -29,11 +29,11 @@ app.config["SWAGGER"] = {
 swagger = Swagger(app)
 
 
-@app.route('/swagger.json', methods=['GET'])
-def returnSwagger():
-    with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
-        text = json.load(f)
-    return jsonify(text)
+# @app.route('/swagger.json', methods=['GET'])
+# def returnSwagger():
+#     with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
+#         text = json.load(f)
+#     return jsonify(text)
 
 
 @app.route('/predict', methods=['GET'])
