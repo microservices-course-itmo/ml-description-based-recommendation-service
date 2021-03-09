@@ -35,6 +35,7 @@ swagger = Swagger(app)
 # db = SQLAlchemy(app)
 # df_db = pd.read_csv('data/alcohol_15000.csv')
 # df_db.columns = [c.lower() for c in df_db.columns]
+# engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db', echo=True)
 drop_table('wines')
 load_catalogue()
 # df_db.to_sql("wines", engine)
