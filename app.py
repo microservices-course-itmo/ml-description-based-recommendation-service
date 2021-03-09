@@ -12,7 +12,7 @@ app.config["SWAGGER"] = {
     "title": "ML-description-based-recommendation",
     "uiversion": 3,
     "static_folder": "static",
-    "specs_route": "/swagger/",
+    # "specs_route": "/swagger/",
     "static_url_path": "/ml-description-based-recommendation-service/static",  # server settings
     # "static_url_path": "/static",  # local settings
     "specs": [
@@ -51,7 +51,7 @@ def predict():
             k = int(request.args['k']) if 'k' in request.args else 10
             desc = request.args['description'] if 'description' in request.args else ''
 
-            indices = model.k_neighbors(wine_id, k, desc)
+            indices = model.k_neighbors(wine_id, k + 1, desc)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
             # print(prediction[['id', 'color', 'sugar']])
