@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import traceback
 import json
 from model.model import ModelLoader
-from data.db import load_by_ids
+from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 
@@ -27,11 +27,13 @@ app.config["SWAGGER"] = {
 }
 
 swagger = Swagger(app)
+drop_table('wines')
+load_catalogue()
 
 
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
-    with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
+    with open('swagger.json', 'r', encoding='utf-8') as f:
         text = json.load(f)
     return jsonify(text)
 
