@@ -3,31 +3,27 @@ import traceback
 import json
 from model.model import ModelLoader
 from data.db import load_by_ids, drop_table, load_catalogue
-import pandas as pd
 from flasgger import Swagger
 from flasgger.utils import swag_from
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
 app.config["SWAGGER"] = {
-    "title": "Swagger-UI",
+    "title": "ML-description-based-recommendation",
     "uiversion": 3,
     "static_folder": "static",
     "specs_route": "/swagger/",
-    "static_url_path": "/ml-description-based-recommendation-service/static",
-    # "static_url_path": "/static",
+    "static_url_path": "/ml-description-based-recommendation-service/static",  # server settings
+    # "static_url_path": "/static",  # local settings
     "specs": [
         {
             "endpoint": 'swagger',
             "route": '/ml-description-based-recommendation-service/swagger.json',
-            "rule_filter": lambda rule: True,  # all in
-            "model_filter": lambda tag: True,  # all in
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
         }
     ],
-    'openapi': '3.0.2'
-    # 'prefix_ids': True
+    'openapi': '3.0.2',
 }
 
 swagger = Swagger(app)
@@ -37,13 +33,13 @@ load_catalogue()
 
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
-    with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
+    with open('swagger.json', 'r', encoding='utf-8') as f:
         text = json.load(f)
     return jsonify(text)
 
 
 @app.route('/predict', methods=['GET'])
-@swag_from("swagger/swagger_config_predict.yml", validation=True)
+@swag_from("swagger/swagger_config_predict.yml")
 def predict():
     if request.method == 'GET':
         try:
@@ -57,7 +53,7 @@ def predict():
             k = int(request.args['k']) if 'k' in request.args else 10
             desc = request.args['description'] if 'description' in request.args else ''
 
-            indices = model.k_neighbors(wine_id, k, desc)
+            indices = model.k_neighbors(wine_id, k + 1, desc)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
             # print(prediction[['id', 'color', 'sugar']])
@@ -72,7 +68,7 @@ def predict():
 
 
 @app.route('/retrain', methods=['POST'])
-@swag_from("swagger/swagger_config_retrain.yml", validation=True)
+@swag_from("swagger/swagger_config_retrain.yml")
 def train():
     if request.method == 'POST':
         try:
