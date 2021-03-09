@@ -27,7 +27,7 @@ app.config["SWAGGER"] = {
 }
 
 swagger = Swagger(app)
-# load_catalogue()
+load_catalogue()
 
 
 @app.route('/swagger.json', methods=['GET'])
@@ -45,11 +45,11 @@ def predict():
             model = ModelLoader().load()
 
             if 'wine_id' in request.args:
-                wine_id = int(request.args['wine_id'])
+                wine_id = request.args['wine_id']
             else:
                 return "Error: No wine_id field provided. Please specify an wine_id."
 
-            k = int(request.args['k']) if 'k' in request.args else 10
+            k = int(request.args['k']) if 'k' in request.args else 11
             desc = request.args['description'] if 'description' in request.args else ''
 
             indices = model.k_neighbors(wine_id, k + 1, desc)

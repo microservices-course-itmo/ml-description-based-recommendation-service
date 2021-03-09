@@ -13,11 +13,11 @@ parameters:
     description: "wine id in full catalogue"
     required: true
     schema:
-      type: integer
+      type: string
   - in: query
     name: "k"
     description: "desired number of recommendations"
-    required: true
+    required: false
     schema:
       type: integer
   - in: query
