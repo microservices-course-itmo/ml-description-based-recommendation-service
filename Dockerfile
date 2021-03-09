@@ -13,6 +13,7 @@ ENV STATIC_URL /static
 ENV STATIC_PATH /static
 ENV STATIC_INDEX 0
 
+COPY swagger.json swagger.json
 COPY . .
 
 EXPOSE 5000

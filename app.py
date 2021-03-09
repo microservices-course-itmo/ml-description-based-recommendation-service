@@ -29,11 +29,11 @@ app.config["SWAGGER"] = {
 swagger = Swagger(app)
 
 
-@app.route('/swagger.json', methods=['GET'])
-def returnSwagger():
-    with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
-        text = json.load(f)
-    return jsonify(text)
+# @app.route('/swagger.json', methods=['GET'])
+# def returnSwagger():
+#     with open('/ml-description-based-recommendation-service/swagger.json', 'r', encoding='utf-8') as f:
+#         text = json.load(f)
+#     return jsonify(text)
 
 
 @app.route('/predict', methods=['GET'])
