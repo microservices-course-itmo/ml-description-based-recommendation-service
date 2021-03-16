@@ -21,18 +21,18 @@ def drop_table(table_name):
 
 def load_catalogue():
     catalogue = create_engine("postgresql://catalog_service_reader:readonly@77.234.215.138:18095/catalog_service_db")
-    df = pd.read_sql(f"select id, {fields} from wine_position", catalogue)
+    df = pd.read_sql(f"select wine_id, {fields} from wine_position limit 1000", catalogue)
     print(f'Loaded {df.shape[0]} records from catalogue')
     df.to_sql("wines", engine)
 
 
 def load_all():
-    df = pd.read_sql(f'SELECT * FROM wines', engine)
+    df = pd.read_sql(f'SELECT wine_id, {fields} FROM wines', engine)
     df['description'] = ' '.join([df[field] for field in fields.split(', ')])
     return df
 
 
 def load_by_ids(ids):
     indices = tuple(ids)
-    alcohol = pd.read_sql(f'SELECT id, name, type, crop_year, manufacturer, brand, volume, country, region, color, grape, sugar FROM wines WHERE id IN {indices}', engine)
+    alcohol = pd.read_sql(f'SELECT wine_id, {fields} FROM wines WHERE wine_id IN {indices}', engine)
     return alcohol
