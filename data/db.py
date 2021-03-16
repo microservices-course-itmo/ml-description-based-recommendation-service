@@ -28,7 +28,9 @@ def load_catalogue():
 
 def load_all():
     df = pd.read_sql(f'SELECT wine_id, {fields} FROM wines', engine)
-    df['description'] = ' '.join([df[field] for field in fields.split(', ')])
+    # df['description'] = df[fields.split(', ')].agg(' '.join, axis=1)
+
+    # df['description'] = ' '.join([df[field] for field in fields.split(', ')])
     return df
 
 

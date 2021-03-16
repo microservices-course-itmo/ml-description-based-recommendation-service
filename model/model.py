@@ -49,17 +49,14 @@ class Model:
 
     def k_neighbors(self, id, k, desc):
         i, = np.where(self.ids == id)
-        if i:
+        if len(i):
             vec = self.vectors[np.where(self.ids == id)]
         else:
-            d = {'id': [id], 'description': [desc]}
+            d = {'wine_id': [id], 'description': [desc]}
             df = pd.DataFrame(data=d)
             vec = self.wine2vec.fit_transform(df, overwrite_corpus=False)
             vec = self.scaler.transform(vec[0])
-            # self.vectors = np.vstack([self.vectors, vec.flatten()])
-            # self.ids = np.append(self.ids, id)
-            # self.dump()
         indices = self.knn.kneighbors(vec, k, return_distance=False)
-        if i:
+        if len(i):
             return self.ids[indices][self.ids[indices] != i[0]]
         return self.ids[indices]

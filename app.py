@@ -27,6 +27,7 @@ app.config["SWAGGER"] = {
 }
 
 swagger = Swagger(app)
+drop_table('wines')
 load_catalogue()
 
 
@@ -49,7 +50,7 @@ def predict():
             else:
                 return "Error: No wine_id field provided. Please specify an wine_id."
 
-            k = int(request.args['k']) if 'k' in request.args else 11
+            k = int(request.args['k']) if 'k' in request.args else 10
             desc = request.args['description'] if 'description' in request.args else ''
 
             indices = model.k_neighbors(wine_id, k + 1, desc)
@@ -72,7 +73,7 @@ def train():
     if request.method == 'POST':
         try:
             ModelLoader(True).load()
-            return "model retrain"
+            return "model retrained"
         except:
             return jsonify({
                 "trace": traceback.format_exc()
