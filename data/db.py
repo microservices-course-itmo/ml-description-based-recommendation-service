@@ -21,7 +21,7 @@ def drop_table(table_name):
 
 def load_catalogue():
     catalogue = create_engine("postgresql://catalog_service_reader:readonly@77.234.215.138:18095/catalog_service_db")
-    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id limit 1000", catalogue)
+    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id limit 100", catalogue)
     print(f'Loaded {df.shape[0]} records from catalogue')
     df.to_sql("wines", engine)
 
