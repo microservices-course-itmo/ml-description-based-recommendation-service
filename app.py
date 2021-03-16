@@ -27,8 +27,6 @@ app.config["SWAGGER"] = {
 }
 
 swagger = Swagger(app)
-drop_table('wines')
-load_catalogue()
 
 
 @app.route('/swagger.json', methods=['GET'])
@@ -72,6 +70,8 @@ def predict():
 def train():
     if request.method == 'POST':
         try:
+            drop_table('wines')
+            load_catalogue()
             ModelLoader(True).load()
             return "model retrained"
         except:
