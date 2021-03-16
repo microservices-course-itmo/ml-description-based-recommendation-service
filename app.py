@@ -70,8 +70,8 @@ def predict():
 def train():
     if request.method == 'POST':
         try:
-            drop_table('wines')
-            load_catalogue()
+            # drop_table('wines')
+            # load_catalogue()
             ModelLoader(True).load()
             return "model retrained"
         except:
