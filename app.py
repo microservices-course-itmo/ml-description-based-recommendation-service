@@ -46,7 +46,7 @@ def predict():
             model = ModelLoader().load()
 
             if 'wine_id' in request.args:
-                wine_id = int(request.args['wine_id'])
+                wine_id = request.args['wine_id']
             else:
                 return "Error: No wine_id field provided. Please specify an wine_id."
 

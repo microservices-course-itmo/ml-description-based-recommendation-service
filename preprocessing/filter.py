@@ -9,11 +9,11 @@ from nltk.stem import SnowballStemmer
 class Normalizer:
 
     def __init__(self, lang='russian'):
-        self.stemmer = SnowballStemmer(lang)
-        self.stop = stopwords.words(lang)
         nltk.download('punkt')
         nltk.download('wordnet')
         nltk.download('stopwords')
+        self.stemmer = SnowballStemmer(lang)
+        self.stop = stopwords.words(lang)
 
     def normalise_description(self, description, to_string=False):
         description = str(description)
