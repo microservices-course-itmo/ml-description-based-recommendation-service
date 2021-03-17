@@ -73,7 +73,7 @@ def train():
             # drop_table('wines')
             # load_catalogue()
 
-            ModelLoader(True).load()
+            # ModelLoader(True).load()
             result = load_all()[0:10].to_json(orient="index")
             parsed = json.loads(result)
             return json.dumps(parsed, ensure_ascii=False)
