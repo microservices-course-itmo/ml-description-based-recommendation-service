@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import traceback
 import json
 from model.model import ModelLoader
-from data.db import load_by_ids, drop_table, load_catalogue
+from data.db import load_by_ids, drop_table, load_catalogue, load_all
 from flasgger import Swagger
 from flasgger.utils import swag_from
 
@@ -72,12 +72,19 @@ def train():
         try:
             # drop_table('wines')
             # load_catalogue()
+
             ModelLoader(True).load()
-            return "model retrained"
+            result = load_all()[0:10].to_json(orient="index")
+            parsed = json.loads(result)
+            return json.dumps(parsed, ensure_ascii=False)
+            # return "model retrained"
         except:
-            return jsonify({
-                "trace": traceback.format_exc()
-            })
+            result = load_all()[0:5].to_json(orient="index")
+            parsed = json.loads(result)
+            return json.dumps(parsed, ensure_ascii=False)
+            # return jsonify({
+            #     "trace": traceback.format_exc()
+            # })
 
 
 if __name__ == "__main__":
