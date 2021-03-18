@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import traceback
 import json
 from model.model import ModelLoader
-from data.db import load_by_ids, drop_table, load_catalogue, load_all
+from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 
@@ -70,21 +70,18 @@ def predict():
 def train():
     if request.method == 'POST':
         try:
-            # drop_table('wines')
-            # load_catalogue()
+            drop_table('wines')
+            load_catalogue()
 
-            # ModelLoader(True).load()
-            result = load_all()[0:10].to_json(orient="index")
-            parsed = json.loads(result)
-            return json.dumps(parsed, ensure_ascii=False)
-            # return "model retrained"
+            ModelLoader(True).load()
+            # result = load_all()[0:2].to_json(orient="index")
+            # parsed = json.loads(result)
+            # return json.dumps(parsed, ensure_ascii=False)
+            return "model retrained"
         except:
-            result = load_all()[0:5].to_json(orient="index")
-            parsed = json.loads(result)
-            return json.dumps(parsed, ensure_ascii=False)
-            # return jsonify({
-            #     "trace": traceback.format_exc()
-            # })
+            return jsonify({
+                "trace": traceback.format_exc()
+            })
 
 
 if __name__ == "__main__":
