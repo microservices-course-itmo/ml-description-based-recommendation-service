@@ -23,7 +23,7 @@ def drop_table(table_name):
 
 
 def load_catalogue():
-    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id", catalogue)
+    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id limit 10000", catalogue)
     print(f'Loaded {df.shape[0]} records from catalogue')
     df.to_sql("wines", engine)
 
