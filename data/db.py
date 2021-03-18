@@ -23,15 +23,14 @@ def drop_table(table_name):
 
 
 def load_catalogue():
-    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id limit 1000", catalogue)
+    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id", catalogue)
     print(f'Loaded {df.shape[0]} records from catalogue')
     df.to_sql("wines", engine)
 
 
 def load_all():
-    df = pd.read_sql(f'SELECT wine_id, {fields} FROM wines order by wine_id limit 1000', engine)
+    df = pd.read_sql(f'SELECT wine_id, {fields} FROM wines order by wine_id', engine)
     # df['description'] = df[fields.split(', ')].agg(' '.join, axis=1)
-
     # df['description'] = ' '.join([df[field] for field in fields.split(', ')])
     return df
 

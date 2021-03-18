@@ -53,8 +53,7 @@ class Model:
             vec = self.vectors[np.where(self.ids == id)]
         else:
             d = {'wine_id': [id], 'description': [desc]}
-            df = pd.DataFrame(data=d)
-            vec = self.wine2vec.fit_transform(df, overwrite_corpus=False)
+            vec = self.wine2vec.fit_transform(pd.DataFrame(data=d), overwrite_corpus=False)
             vec = self.scaler.transform(vec[0])
         indices = self.knn.kneighbors(vec, k, return_distance=False)
         if len(i):
