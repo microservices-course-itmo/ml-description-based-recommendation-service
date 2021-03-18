@@ -5,6 +5,8 @@ from model.model import ModelLoader
 from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
+import time
+
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
@@ -70,14 +72,12 @@ def predict():
 def train():
     if request.method == 'POST':
         try:
+            start_time = time.time()
             drop_table('wines')
             load_catalogue()
 
             ModelLoader(True).load()
-            # result = load_all()[0:2].to_json(orient="index")
-            # parsed = json.loads(result)
-            # return json.dumps(parsed, ensure_ascii=False)
-            return "model retrained"
+            return "model retrained in " + str(round(time.time() - start_time, 2)) + " seconds"
         except:
             return jsonify({
                 "trace": traceback.format_exc()
