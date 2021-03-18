@@ -21,7 +21,7 @@ def retrain():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(retrain, 'interval', minutes=60)
+scheduler.add_job(retrain, 'interval', minutes=720)
 scheduler.start()
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
