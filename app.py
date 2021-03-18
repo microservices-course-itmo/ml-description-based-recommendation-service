@@ -6,7 +6,24 @@ from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
+
+def retrain():
+    try:
+        drop_table('wines')
+        load_catalogue()
+        start_time = time.time()
+        ModelLoader(True).load()
+        print("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
+    except:
+        print("Retraining failed :(")
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(retrain, 'interval', minutes=720)
+scheduler.start()
+retrain()
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
 
@@ -56,7 +73,6 @@ def predict():
             indices = model.k_neighbors(wine_id, k + 1, desc)
             indices = indices.flatten()
             prediction = load_by_ids(indices)
-            # print(prediction[['id', 'color', 'sugar']])
             result = prediction.to_json(orient="index")
             parsed = json.loads(result)
             response = json.dumps(parsed, ensure_ascii=False)
@@ -67,21 +83,18 @@ def predict():
             })
 
 
-@app.route('/retrain', methods=['POST'])
-@swag_from("swagger/swagger_config_retrain.yml")
-def train():
-    if request.method == 'POST':
-        try:
-            start_time = time.time()
-            drop_table('wines')
-            load_catalogue()
-
-            ModelLoader(True).load()
-            return "model retrained in " + str(round(time.time() - start_time, 2)) + " seconds"
-        except:
-            return jsonify({
-                "trace": traceback.format_exc()
-            })
+# @app.route('/retrain', methods=['POST'])
+# @swag_from("swagger/swagger_config_retrain.yml")
+# def train():
+#     if request.method == 'POST':
+#         try:
+#             start_time = time.time()
+#             ModelLoader(True).load()
+#             return "model retrained in " + str(round(time.time() - start_time, 2)) + " seconds"
+#         except:
+#             return jsonify({
+#                 "trace": traceback.format_exc()
+#             })
 
 
 if __name__ == "__main__":
