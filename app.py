@@ -22,11 +22,12 @@ def retrain():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=20)))
+scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=40)))
 scheduler.add_job(retrain, 'interval', minutes=720)
 scheduler.start()
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
+
 
 app.config["SWAGGER"] = {
     "title": "ML-description-based-recommendation",
@@ -44,11 +45,10 @@ app.config["SWAGGER"] = {
         }
     ],
     'openapi': '3.0.2',
-    'basePath': '/ml-description-based-recommendation-service'
 }
 
-swagger = Swagger(app)
-
+template = dict(swaggerUiPrefix='/ml-description-based-recommendation-service')
+swagger = Swagger(app, template=template)
 
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
