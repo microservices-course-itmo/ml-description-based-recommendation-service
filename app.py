@@ -6,13 +6,14 @@ from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 import time
+from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
 def retrain():
     try:
-        drop_table('wines')
-        load_catalogue()
+        # drop_table('wines')
+        # load_catalogue()
         start_time = time.time()
         ModelLoader(True).load()
         print("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
@@ -21,6 +22,7 @@ def retrain():
 
 
 scheduler = BackgroundScheduler()
+scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=20)))
 scheduler.add_job(retrain, 'interval', minutes=720)
 scheduler.start()
 
@@ -42,6 +44,7 @@ app.config["SWAGGER"] = {
         }
     ],
     'openapi': '3.0.2',
+    'basePath': '/ml-description-based-recommendation-service'
 }
 
 swagger = Swagger(app)
@@ -80,20 +83,6 @@ def predict():
             return jsonify({
                 "trace": traceback.format_exc()
             })
-
-
-# @app.route('/retrain', methods=['POST'])
-# @swag_from("swagger/swagger_config_retrain.yml")
-# def train():
-#     if request.method == 'POST':
-#         try:
-#             start_time = time.time()
-#             ModelLoader(True).load()
-#             return "model retrained in " + str(round(time.time() - start_time, 2)) + " seconds"
-#         except:
-#             return jsonify({
-#                 "trace": traceback.format_exc()
-#             })
 
 
 if __name__ == "__main__":
