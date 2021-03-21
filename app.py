@@ -1,6 +1,12 @@
+import os
+from threading import Thread
+
 from flask import Flask, jsonify, request
 import traceback
 import json
+
+from kafka import KafkaConsumer
+
 from model.model import ModelLoader
 from data.db import load_by_ids, drop_table, load_catalogue
 from flasgger import Swagger
@@ -85,5 +91,19 @@ def predict():
             })
 
 
+def kafkaListener():
+    consumer = KafkaConsumer("eventTopic", auto_offset_reset='earliest', bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
+                             api_version=(0, 10),
+                             consumer_timeout_ms=1000,
+                             value_deserializer=lambda x: x.decode('utf-8'))
+    while True:
+        time.sleep(60)
+        for msg in consumer:
+            print("Hello, Kafka!")
+            print(msg.value)
+
+
 if __name__ == "__main__":
+    thread = Thread(target=kafkaListener)
+    thread.start()
     app.run()
