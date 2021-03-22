@@ -29,8 +29,8 @@ def retrain():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=40)))
-scheduler.add_job(retrain, 'interval', minutes=720)
+scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=30)))
+scheduler.add_job(retrain, 'interval', days=1)
 scheduler.start()
 
 app = Flask(__name__, static_url_path='/static', static_folder='static', template_folder='templates')
@@ -72,8 +72,8 @@ def predict():
         try:
             model = ModelLoader().load()
 
-            if 'wine_id' in request.args:
-                wine_id = request.args['wine_id']
+            if 'id' in request.args:
+                wine_id = request.args['id']
             else:
                 return "Error: No wine_id field provided. Please specify the wine_id."
 
@@ -91,10 +91,13 @@ def predict():
 
 
 def kafkaListener():
-    consumer = KafkaConsumer("eventTopic", auto_offset_reset='earliest', bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
+    consumer = KafkaConsumer("eventTopic",
+                             auto_offset_reset='earliest',
+                             bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
                              api_version=(0, 10),
                              consumer_timeout_ms=1000,
-                             value_deserializer=lambda x: x.decode('utf-8'))
+                             value_deserializer=lambda x: x.decode('utf-8')
+                             )
     while True:
         time.sleep(60)
         for msg in consumer:
