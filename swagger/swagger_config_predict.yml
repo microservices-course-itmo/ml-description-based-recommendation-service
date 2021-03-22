@@ -9,14 +9,14 @@ tags:
   - "ml-description-based-recommendation-service"
 parameters:
   - in: query
-    name: "wine_id"
-    description: "wine id in full catalogue"
+    name: "id"
+    description: "wine position id in catalog database"
     required: true
     schema:
       type: string
   - in: query
     name: "k"
-    description: "desired number of recommendations"
+    description: "desired number of recommendations, default 10"
     required: false
     schema:
       type: integer
