@@ -52,10 +52,10 @@ class Model:
         if len(i):
             vec = self.vectors[np.where(self.ids == id)]
         else:
-            d = {'wine_id': [id], 'description': [desc]}
+            d = {'id': [id], 'description': [desc]}
             vec = self.wine2vec.fit_transform(pd.DataFrame(data=d), overwrite_corpus=False)
             vec = self.scaler.transform(vec[0])
         indices = self.knn.kneighbors(vec, k, return_distance=False)
         if len(i):
-            return self.ids[indices][self.ids[indices] != i[0]]
+            return self.ids[indices][self.ids[indices] != id]
         return self.ids[indices]

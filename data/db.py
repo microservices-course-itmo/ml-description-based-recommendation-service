@@ -23,13 +23,13 @@ def drop_table(table_name):
 
 
 def load_catalogue():
-    df = pd.read_sql(f"select wine_id, {fields} from wine_position order by wine_id", catalogue)
+    df = pd.read_sql(f"select id, {fields} from wine_position order by id", catalogue)
     print(f'Loaded {df.shape[0]} records from catalogue')
-    df.to_sql("wines", engine)
+    df.to_sql("wines", engine, index=False)
 
 
 def load_all():
-    df = pd.read_sql(f'SELECT wine_id, {fields} FROM wines order by wine_id', engine)
+    df = pd.read_sql(f'SELECT id, {fields} FROM wines order by id', engine)
     # df['description'] = df[fields.split(', ')].agg(' '.join, axis=1)
     # df['description'] = ' '.join([df[field] for field in fields.split(', ')])
     return df
@@ -37,5 +37,5 @@ def load_all():
 
 def load_by_ids(ids):
     indices = tuple(ids)
-    alcohol = pd.read_sql(f'SELECT wine_id, {fields} FROM wines WHERE wine_id IN {indices}', engine)
+    alcohol = pd.read_sql(f'SELECT id, {fields} FROM wines WHERE id IN {indices}', engine)
     return alcohol
