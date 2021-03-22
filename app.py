@@ -8,7 +8,7 @@ import json
 from kafka import KafkaConsumer
 
 from model.model import ModelLoader
-from data.db import load_by_ids, drop_table, load_catalogue
+from data.db import drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 import time
@@ -18,13 +18,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 def retrain():
     try:
-        # drop_table('wines')
-        # load_catalogue()
+        drop_table('wines')
+        load_catalogue()
         start_time = time.time()
         ModelLoader(True).load()
         print("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
-    except:
+    except Exception as e:
         print("Retraining failed :(")
+        print('ERROR', e)
 
 
 scheduler = BackgroundScheduler()
@@ -56,6 +57,7 @@ app.config["SWAGGER"] = {
 template = dict(swaggerUiPrefix='/ml-description-based-recommendation-service')
 swagger = Swagger(app, template=template)
 
+
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
     with open('swagger.json', 'r', encoding='utf-8') as f:
@@ -73,17 +75,14 @@ def predict():
             if 'wine_id' in request.args:
                 wine_id = request.args['wine_id']
             else:
-                return "Error: No wine_id field provided. Please specify an wine_id."
+                return "Error: No wine_id field provided. Please specify the wine_id."
 
             k = int(request.args['k']) if 'k' in request.args else 10
             desc = request.args['description'] if 'description' in request.args else ''
 
             indices = model.k_neighbors(wine_id, k + 1, desc)
-            indices = indices.flatten()
-            prediction = load_by_ids(indices)
-            result = prediction.to_json(orient="index")
-            parsed = json.loads(result)
-            response = json.dumps(parsed, ensure_ascii=False)
+            result = indices.flatten().tolist()
+            response = json.dumps(result, ensure_ascii=False)
             return response
         except:
             return jsonify({
