@@ -20,7 +20,7 @@ class ModelLoader:
             return self._load_model()
 
     def _load_model(self):
-        with open('model/bin/model.pkl', 'rb') as f:
+        with open('model/model.pkl', 'rb') as f:
             model = pickle.load(f)
         return model
 
@@ -43,7 +43,7 @@ class Model:
 
     def dump(self):
         if self.knn is not None:
-            with open('model/bin/model.pkl', 'wb') as file:
+            with open('model/model.pkl', 'wb') as file:
                 pickle.dump(self, file)
         return self
 
