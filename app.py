@@ -4,8 +4,9 @@ from threading import Thread
 from flask import Flask, jsonify, request
 import traceback
 import json
+import logging
 
-from kafka import KafkaConsumer
+from kafka_listener.catalog_consumer import get_message_new_wine
 
 from model.model import ModelLoader
 from data.db import drop_table, load_catalogue
@@ -22,10 +23,10 @@ def retrain():
         load_catalogue()
         start_time = time.time()
         ModelLoader(True).load()
-        print("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
+        logging.info("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
     except Exception as e:
-        print("Retraining failed :(")
-        print('ERROR', e)
+        logging.info("Retraining failed :(")
+        logging.info('ERROR', e)
 
 
 scheduler = BackgroundScheduler()
@@ -89,23 +90,23 @@ def predict():
                 "trace": traceback.format_exc()
             })
 
-
-def kafkaListener():
-    consumer = KafkaConsumer("eventTopic",
-                             auto_offset_reset='earliest',
-                             bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
-                             api_version=(0, 10),
-                             consumer_timeout_ms=1000,
-                             value_deserializer=lambda x: x.decode('utf-8')
-                             )
-    while True:
-        time.sleep(60)
-        for msg in consumer:
-            print("Hello, Kafka!")
-            print(msg.value)
+#
+# def kafkaListener():
+#     consumer = KafkaConsumer("eventTopic",
+#                              auto_offset_reset='earliest',
+#                              bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
+#                              api_version=(0, 10),
+#                              consumer_timeout_ms=1000,
+#                              value_deserializer=lambda x: x.decode('utf-8')
+#                              )
+#     while True:
+#         time.sleep(60)
+#         for msg in consumer:
+#             print("Hello, Kafka!")
+#             print(msg.value)
 
 
 if __name__ == "__main__":
-    thread = Thread(target=kafkaListener)
+    thread = Thread(target=get_message_new_wine)
     thread.start()
     app.run()

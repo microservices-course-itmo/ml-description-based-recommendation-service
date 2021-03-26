@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from flask import Flask
 from flask_migrate import Migrate
@@ -24,7 +26,7 @@ def drop_table(table_name):
 
 def load_catalogue():
     df = pd.read_sql(f"select id, {fields} from wine_position order by id", catalogue)
-    print(f'Loaded {df.shape[0]} records from catalogue')
+    logging.info(f'Loaded {df.shape[0]} records from catalogue')
     df.to_sql("wines", engine, index=False)
 
 
@@ -39,3 +41,9 @@ def load_by_ids(ids):
     indices = tuple(ids)
     alcohol = pd.read_sql(f'SELECT id, {fields} FROM wines WHERE id IN {indices}', engine)
     return alcohol
+
+
+def add_new_wine(new_wine_id):
+    df = pd.read_sql(f"select id, {fields} from wine_position where wine_id = {new_wine_id}", catalogue)
+    logging.info(f'Loaded {df.shape[0]} records from catalogue')
+    df.to_sql("wines", engine, index=False)
