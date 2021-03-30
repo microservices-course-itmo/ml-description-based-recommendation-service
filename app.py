@@ -1,4 +1,6 @@
 import os
+import sys
+from datetime import datetime, timedelta
 from threading import Thread
 
 from flask import Flask, jsonify, request
@@ -13,7 +15,6 @@ from data.db import drop_table, load_catalogue
 from flasgger import Swagger
 from flasgger.utils import swag_from
 import time
-from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -90,23 +91,9 @@ def predict():
                 "trace": traceback.format_exc()
             })
 
-#
-# def kafkaListener():
-#     consumer = KafkaConsumer("eventTopic",
-#                              auto_offset_reset='earliest',
-#                              bootstrap_servers=[f'{os.environ["KAFKA_HOST"]}:29092'],
-#                              api_version=(0, 10),
-#                              consumer_timeout_ms=1000,
-#                              value_deserializer=lambda x: x.decode('utf-8')
-#                              )
-#     while True:
-#         time.sleep(60)
-#         for msg in consumer:
-#             print("Hello, Kafka!")
-#             print(msg.value)
-
 
 if __name__ == "__main__":
-    thread = Thread(target=get_message_new_wine)
+    get_message_new_wine()
+    thread = Thread(target=get_message_new_wine())
     thread.start()
-    app.run()
+    app.run(debug=True)
