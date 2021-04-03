@@ -94,6 +94,4 @@ def predict():
 
 if __name__ == "__main__":
     get_message_new_wine()
-    thread = Thread(target=get_message_new_wine())
-    thread.start()
-    app.run(debug=True)
+    app.run()
