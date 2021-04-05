@@ -16,7 +16,7 @@ ENV STATIC_PATH /static
 ENV STATIC_INDEX 0
 
 COPY swagger.json swagger.json
-COPY logs.txt logs.json
+COPY logs.txt logs.txt
 COPY . .
 
 EXPOSE 5000
