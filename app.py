@@ -18,20 +18,27 @@ import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-def retrain():
+
+def retrain(positions=0):
     try:
         drop_table('wines')
-        load_catalogue()
+        if positions != 0:
+            load_catalogue(positions)
+        else:
+            load_catalogue()
         start_time = time.time()
         ModelLoader(True).load()
-        logging.info("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds")
+        print("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds", flush=True)
+        f = open('logs.txt', 'a')
+        f.write("Model retrained in " + str(round(time.time() - start_time, 2)) + " seconds \n")
+        f.close()
     except Exception as e:
-        logging.info("Retraining failed :(")
-        logging.info('ERROR', e)
+        print("Retraining failed :(", flush=True)
+        print('ERROR', str(e), flush=True)
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=30)))
+scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=20)))
 scheduler.add_job(retrain, 'interval', days=1)
 scheduler.start()
 
@@ -60,11 +67,29 @@ template = dict(swaggerUiPrefix='/ml-description-based-recommendation-service')
 swagger = Swagger(app, template=template)
 
 
+@app.route('/retrain', methods=['POST'])
+def retrain_catalog():
+    if request.method == 'POST':
+        n = int(request.args['n'])
+        scheduler.add_job(lambda: retrain(n), 'date', run_date=(datetime.now() + timedelta(seconds=5)))
+        return "Model started retrain"
+    else:
+        return jsonify({
+            "trace": traceback.format_exc()
+        })
+
+
 @app.route('/swagger.json', methods=['GET'])
 def returnSwagger():
     with open('swagger.json', 'r', encoding='utf-8') as f:
         text = json.load(f)
     return jsonify(text)
+
+
+@app.route('/logs.txt', methods=['GET'])
+def returnLogs():
+    f = open('logs.txt', 'r')
+    return str(f.readlines())
 
 
 @app.route('/predict', methods=['GET'])
