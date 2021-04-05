@@ -30,7 +30,7 @@ def load_catalogue(lim=0):
         df = pd.read_sql(f"select id, {fields} from wine_position order by id limit {lim}", catalogue)
     else:
         df = pd.read_sql(f"select id, {fields} from wine_position order by id", catalogue)
-    f = open('../logs.txt', 'w')
+    f = open('../logs.txt', 'a')
     print(f'Loaded {df.shape[0]} records from catalogue', flush=True)
     f.write('Loaded ' + str(df.shape[0]) + ' records from catalogue \n')
     f.close()
@@ -53,7 +53,7 @@ def load_by_ids(ids):
 def add_new_wine(new_wine_id):
     df = pd.read_sql(f"select id, {fields} from wine_position where wine_id = {new_wine_id}", catalogue)
     print(f'Loaded new record from catalogue with id ' + str(new_wine_id), flush=True)
-    f = open('../logs.txt', 'w')
+    f = open('../logs.txt', 'a')
     f.write('Loaded new record from catalogue with id ' + str(new_wine_id) + '\n')
     f.close()
     df.to_sql("wines", engine, index=False)
