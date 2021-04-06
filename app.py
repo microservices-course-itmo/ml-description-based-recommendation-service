@@ -33,7 +33,7 @@ def retrain(positions=0):
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(lambda: retrain(1000), 'date', run_date=(datetime.now() + timedelta(seconds=40)))
+scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=30)))
 scheduler.add_job(retrain, 'interval', days=1)
 scheduler.start()
 
