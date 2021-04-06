@@ -8,5 +8,6 @@ import "kafka_message_header.proto";
 message NewWineSavedMessageSentEvent {
   string wineId = 1;
   string wineName = 2;
-  repeated KafkaMessageHeader headers = 3;
+  string wineDescription = 3;
+  repeated KafkaMessageHeader headers = 4;
 }
