@@ -50,8 +50,6 @@ def load_by_ids(ids):
 def add_new_wine(new_wine_id, new_wine_description):
     engine.connect().execute(f"INSERT INTO wines (id, description) VALUES ({new_wine_id}, {new_wine_description});")
     print(f'Received one new wine with parameters: {new_wine_id}, {new_wine_description}', flush=True)
-    alcohol = pd.read_sql(f'SELECT id, {fields} FROM wines WHERE id IN {new_wine_id}', engine)
-    print(alcohol, flush=True)
     f = open('../logs.txt', 'a')
     f.write(f'Received one new wine with parameters: {new_wine_id}, {new_wine_description} \n')
     f.close()
