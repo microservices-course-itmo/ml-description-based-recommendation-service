@@ -1,4 +1,3 @@
-import logging
 import traceback
 
 from kafka import KafkaConsumer
@@ -22,13 +21,18 @@ def get_message_new_wine():
         group_id=GROUP_ID,
     )
 
-    logging.info("New wines")
+    print("Getting new wine...", flush=True)
     for message in consumer_new_wine:
         message = message.value
         result = new_wine.NewWineSavedMessageSentEvent()
         result.ParseFromString(message)
 
         try:
-            add_new_wine(result.wineId)
+            print(f'{result.wineId}, {result.wineDescription}', flush=True)
+            add_new_wine(result.wineId, result.wineDescription)
         except Exception:
-            logging.error(traceback.format_exc())
+            print(traceback.format_exc(), flush=True)
+
+
+if __name__ == "__main__":
+    get_message_new_wine()

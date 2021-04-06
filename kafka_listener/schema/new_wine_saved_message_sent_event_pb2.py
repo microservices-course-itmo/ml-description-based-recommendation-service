@@ -10,7 +10,9 @@ from google.protobuf import symbol_database as _symbol_database
 
 _sym_db = _symbol_database.Default()
 
-from kafka_listener.schema import kafka_message_header_pb2 as kafka__message__header__pb2
+
+import kafka_listener.schema.kafka_message_header_pb2 as kafka__message__header__pb2
+
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='new_wine_saved_message_sent_event.proto',
@@ -18,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n*com.wine.to.up.catalog.service.api.message',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\'new_wine_saved_message_sent_event.proto\x1a\x1akafka_message_header.proto\"f\n\x1cNewWineSavedMessageSentEvent\x12\x0e\n\x06wineId\x18\x01 \x01(\t\x12\x10\n\x08wineName\x18\x02 \x01(\t\x12$\n\x07headers\x18\x03 \x03(\x0b\x32\x13.KafkaMessageHeaderB,\n*com.wine.to.up.catalog.service.api.messageb\x06proto3'
+  serialized_pb=b'\n\'new_wine_saved_message_sent_event.proto\x1a\x1akafka_message_header.proto\"\x7f\n\x1cNewWineSavedMessageSentEvent\x12\x0e\n\x06wineId\x18\x01 \x01(\t\x12\x10\n\x08wineName\x18\x02 \x01(\t\x12\x17\n\x0fwineDescription\x18\x03 \x01(\t\x12$\n\x07headers\x18\x04 \x03(\x0b\x32\x13.KafkaMessageHeaderB,\n*com.wine.to.up.catalog.service.api.messageb\x06proto3'
   ,
   dependencies=[kafka__message__header__pb2.DESCRIPTOR,])
 
@@ -48,8 +50,15 @@ _NEWWINESAVEDMESSAGESENTEVENT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='headers', full_name='NewWineSavedMessageSentEvent.headers', index=2,
-      number=3, type=11, cpp_type=10, label=3,
+      name='wineDescription', full_name='NewWineSavedMessageSentEvent.wineDescription', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='headers', full_name='NewWineSavedMessageSentEvent.headers', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -67,7 +76,7 @@ _NEWWINESAVEDMESSAGESENTEVENT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=71,
-  serialized_end=173,
+  serialized_end=198,
 )
 
 _NEWWINESAVEDMESSAGESENTEVENT.fields_by_name['headers'].message_type = kafka__message__header__pb2._KAFKAMESSAGEHEADER

@@ -1,6 +1,3 @@
-import logging
-import sys
-
 import pandas as pd
 from flask import Flask
 from flask_migrate import Migrate
@@ -10,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 app = Flask(__name__)
 engine = create_engine('postgresql://ml_service:ml_pass@postgres:5432/ml_service_db')
 # catalogue = create_engine("postgresql://catalog_service_reader:readonly@77.234.215.138:18095/catalog_service_db")
-catalogue = create_engine("postgresql://catalog_service_reader:readonly@postgres:5432/catalog_service_db", echo=True)
+catalogue = create_engine("postgresql://catalog_service_reader:readonly@postgres:5432/catalog_service_db",)
 
 migrate = Migrate(app, engine)
 
@@ -26,7 +23,7 @@ def drop_table(table_name):
 
 
 def load_catalogue(lim=0):
-    if lim!= 0:
+    if lim:
         df = pd.read_sql(f"select id, {fields} from wine_position order by id limit {lim}", catalogue)
     else:
         df = pd.read_sql(f"select id, {fields} from wine_position order by id", catalogue)
@@ -50,10 +47,9 @@ def load_by_ids(ids):
     return alcohol
 
 
-def add_new_wine(new_wine_id):
-    df = pd.read_sql(f"select id, {fields} from wine_position where wine_id = {new_wine_id}", catalogue)
-    print(f'Loaded new record from catalogue with id ' + str(new_wine_id), flush=True)
+def add_new_wine(new_wine_id, new_wine_description):
+    engine.connect().execute(f"INSERT INTO wines (id, description) VALUES ({new_wine_id}, {new_wine_description});")
+    print(f'Received one new wine with parameters: {new_wine_id}, {new_wine_description}', flush=True)
     f = open('../logs.txt', 'a')
-    f.write('Loaded new record from catalogue with id ' + str(new_wine_id) + '\n')
+    f.write(f'Received one new wine with parameters: {new_wine_id}, {new_wine_description} \n')
     f.close()
-    df.to_sql("wines", engine, index=False)

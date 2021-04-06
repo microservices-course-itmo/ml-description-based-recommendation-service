@@ -1,12 +1,8 @@
-import os
-import sys
 from datetime import datetime, timedelta
-from threading import Thread
 
 from flask import Flask, jsonify, request
 import traceback
 import json
-import logging
 
 from kafka_listener.catalog_consumer import get_message_new_wine
 
@@ -16,7 +12,6 @@ from flasgger import Swagger
 from flasgger.utils import swag_from
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-
 
 
 def retrain(positions=0):
@@ -38,7 +33,7 @@ def retrain(positions=0):
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(retrain, 'date', run_date=(datetime.now() + timedelta(seconds=20)))
+scheduler.add_job(lambda: retrain(1000), 'date', run_date=(datetime.now() + timedelta(seconds=40)))
 scheduler.add_job(retrain, 'interval', days=1)
 scheduler.start()
 
@@ -86,7 +81,7 @@ def returnSwagger():
     return jsonify(text)
 
 
-@app.route('/logs.txt', methods=['GET'])
+@app.route('/logs', methods=['GET'])
 def returnLogs():
     f = open('logs.txt', 'r')
     return str(f.readlines())
